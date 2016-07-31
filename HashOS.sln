@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashOS", "HashOS\HashOS.csproj", "{C80D9F18-51FB-4B0D-AEF5-1FDFED9C43C8}"
 EndProject
-Project("{471EC4BB-E47E-4229-A789-D1F5F83B52D4}") = "HashOSBoot", "..\..\..\..\AppData\Local\Temporary Projects\HashOS\HashOSBoot.Cosmos", "{BF0D3565-6FF2-49CA-BC0A-E80BE81C6502}"
+Project("{471EC4BB-E47E-4229-A789-D1F5F83B52D4}") = "HashOSBoot", "HashOS\HashOSBoot.Cosmos", "{775C77A6-BF02-47C7-BFE5-8EDB232DEABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{C80D9F18-51FB-4B0D-AEF5-1FDFED9C43C8}.Debug|x86.Build.0 = Debug|x86
 		{C80D9F18-51FB-4B0D-AEF5-1FDFED9C43C8}.Release|x86.ActiveCfg = Release|x86
 		{C80D9F18-51FB-4B0D-AEF5-1FDFED9C43C8}.Release|x86.Build.0 = Release|x86
-		{BF0D3565-6FF2-49CA-BC0A-E80BE81C6502}.Debug|x86.ActiveCfg = Debug|x86
-		{BF0D3565-6FF2-49CA-BC0A-E80BE81C6502}.Debug|x86.Build.0 = Debug|x86
-		{BF0D3565-6FF2-49CA-BC0A-E80BE81C6502}.Release|x86.ActiveCfg = Debug|x86
-		{BF0D3565-6FF2-49CA-BC0A-E80BE81C6502}.Release|x86.Build.0 = Debug|x86
+		{775C77A6-BF02-47C7-BFE5-8EDB232DEABE}.Debug|x86.ActiveCfg = Debug|x86
+		{775C77A6-BF02-47C7-BFE5-8EDB232DEABE}.Debug|x86.Build.0 = Debug|x86
+		{775C77A6-BF02-47C7-BFE5-8EDB232DEABE}.Release|x86.ActiveCfg = Debug|x86
+		{775C77A6-BF02-47C7-BFE5-8EDB232DEABE}.Release|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
