@@ -31,9 +31,9 @@
     <Reference Include="Cosmos.Debug.Kernel.Plugs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5ae71220097cb983" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Documents\Visual Studio 2015\Projects\HashOS\HashOS\HashOS.csproj">
+    <ProjectReference Include="..\HashOS\HashOS.csproj">
       <Name>HashOS</Name>
-      <Project>{cc08dbb5-1f21-46bb-952a-68681e187e8d}</Project>
+      <Project>{c80d9f18-51fb-4b0d-aef5-1fdfed9c43c8}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

@@ -25,6 +25,10 @@ namespace TestOS
                 runTestProgram(args, fullCommand);
                 return 0;
             }
+            if (command == "easteregg")
+            {
+                runEasterEgg();
+            }
             return 2;
         }
 
@@ -46,6 +50,10 @@ namespace TestOS
                     Console.WriteLine(args[i]);
                 }
             }
+        }
+        public void runEasterEgg()
+        {
+            Console.WriteLine("Quit snooping around, please!");
         }
        
        

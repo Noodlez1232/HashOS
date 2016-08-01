@@ -52,7 +52,7 @@ namespace TestOS
             Sys.Kernel.PrintDebug("runCommand is running");
             string[] runCommandTmp = input.Split(' ');
             Sys.Kernel.PrintDebug("input has been split");
-            for (int i=0;i<commandList.GetUpperBound(0);i++)
+            for (int i=0;i<commandList.Length;i++)
             {
                 //Check if command exists
                 Sys.Kernel.PrintDebug("Check if command exists");
