@@ -1,6 +1,6 @@
 HashOS
 ======
-An OS written in C# using [Cosmos](../../CosmosOS/Cosmos)
+An OS written in C# using [Cosmos](https://github.com/CosmosOS/Cosmos/)
 
 Todo
 ----
