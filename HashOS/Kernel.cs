@@ -10,7 +10,7 @@ namespace TestOS
     {
         string[] commandArray = new string[]
         {
-            "testprogram",
+            "argumenttest",
             "echo",
             "shutdown",
             "reboot",
@@ -31,18 +31,22 @@ namespace TestOS
         TestOS.ShellWrapper shell = new ShellWrapper();
         protected override void BeforeRun()
         {
+            //Clear it and write the inital messages
             Console.Clear();
             Console.WriteLine("Booting up...");
-            Console.WriteLine("Welcome to HashOS!");
+            //Give the commands to the shell wrapper
             shell.listOfCommands = commandArray;
             shell.listOfCommandTypes = commandTypeArray;
+
+            //YAY! We've successfully booted up
+            Console.WriteLine("Welcome to HashOS!");
         }
 
         protected override void Run()
         {
+            //Get the shell all good and running
             Console.Write("HOS> ");
             string input = Console.ReadLine();
-            commandArray = input.Split(' ');
             Sys.Global.mDebugger.Send("Shell Wrapper called");
             int returnCode = shell.runCommand(input);
             if (returnCode == 3)
@@ -68,9 +72,9 @@ namespace TestOS
                     Console.WriteLine("HashOS Version 0.1");
                     Console.WriteLine("help Version 0.01");
                     Console.WriteLine("Commands:");
-                    for (int i=0;i<commandArray.GetLength(0);i++)
+                    for (int i = 0; i < commandArray.Length; i++)
                     {
-                        Console.WriteLine(commandArray[i]);
+                        if (commandArray[i]!="easteregg") Console.WriteLine(commandArray[i]);
                     }
                     return;
                 }
@@ -92,7 +96,16 @@ namespace TestOS
             {
                 Console.WriteLine("Command not found!");
             }
+            if (returnCode==2)
+            {
+                Console.WriteLine("APPLICATION SUFFFERED A FATAL ERROR!");
+            }
 
         }
+        protected override void AfterRun()
+        {
+
+        }
+       
     }
 }

@@ -20,21 +20,22 @@ namespace TestOS
         public int runCommand(string command, string[] args, string fullCommand)
         {
             Sys.Global.mDebugger.Send("Userland called!");
-            if (command == "testprogram")
+            if (command == "argtest")
             {
-                runTestProgram(args, fullCommand);
+                runArgTestProgram(args, fullCommand);
                 return 0;
             }
             if (command == "easteregg")
             {
                 runEasterEgg();
+                return 0;
             }
             return 2;
         }
 
-        public void runTestProgram(string[] args, string fullCommand)
+        public void runArgTestProgram(string[] args, string fullCommand)
         {
-            Console.WriteLine("Test Program");
+            Console.WriteLine("Argument System Test Program");
             Console.WriteLine();
             Console.Write("Full command: ");
             Console.WriteLine(fullCommand);
