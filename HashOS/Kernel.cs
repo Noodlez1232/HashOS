@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using HashOS;
 
 using Sys = Cosmos.System;
 
-namespace TestOS
+namespace HashOS
 {
     public class Kernel : Sys.Kernel
     {
+        Drivers.Time time = new Drivers.Time();
         string[] commandArray = new string[]
         {
             "argumenttest",
@@ -16,19 +18,31 @@ namespace TestOS
             "reboot",
             "cls",
             "easteregg",
-            "help"
+            "help",
+            "time",
+            "dir",
+            "hscript",
+            "exechbc",
+            "hsasm"
         };
         byte[] commandTypeArray = new byte[]
         {
-            0,
-            1,
-            1,
-            1,
-            1,
-            0,
-            1
+            0, //argumenttest = userland
+            1, //echo = kernel
+            1, //shutdown = kernel
+            1, //reboot = kernel
+            1, //cls = kernel
+            0, //easteregg = userland
+            1, //help = kernel
+            1, //time = kernel
+            0, //dir = userland
+            0, //hscript = userland
+            1, //exechbc = kernel
+            0, //hsasm = userland
         };
-        TestOS.ShellWrapper shell = new ShellWrapper();
+        HashOS.ShellWrapper shell = new ShellWrapper();
+        bool hscriptRunning = false;
+        bool hbcRunning = false;
         protected override void BeforeRun()
         {
             //Clear it and write the inital messages
@@ -37,7 +51,9 @@ namespace TestOS
             //Give the commands to the shell wrapper
             shell.listOfCommands = commandArray;
             shell.listOfCommandTypes = commandTypeArray;
-
+            //Init the shell and userland
+            Console.WriteLine("Setting up the shell and userland");
+            shell.init();
             //YAY! We've successfully booted up
             Console.WriteLine("Welcome to HashOS!");
         }
@@ -46,47 +62,56 @@ namespace TestOS
         {
             //Get the shell all good and running
             Console.Write("HOS> ");
-            string input = Console.ReadLine();
+            runCommand(Console.ReadLine());
             Sys.Global.mDebugger.Send("Shell Wrapper called");
-            int returnCode = shell.runCommand(input);
+        }
+        public void runCommand(string FullCommand)
+        {
+            int returnCode = shell.runCommand(FullCommand);
             if (returnCode == 3)
             {
                 //Have to be sorted by length
-                if (input.Substring(0, "cls".Length).ToLower() == "cls")
+                if (FullCommand.Substring(0, "cls".Length).ToLower() == "cls")
                 {
                     Console.Clear();
                     return;
                 }
-                if (input.Split(' ')[0].ToLower() == "echo")
+                if (FullCommand.Split(' ')[0].ToLower() == "echo")
                 {
-                    for (int i = 1; i < input.Split(' ').GetLength(0); i++)
+                    for (int i = 1; i < FullCommand.Split(' ').GetLength(0); i++)
                     {
-                        Console.Write(input.Split(' ')[i]);
+                        Console.Write(FullCommand.Split(' ')[i]);
                         Console.Write(' ');
                     }
                     Console.WriteLine();
                     return;
                 }
-                if (input.Substring(0,"help".Length).ToLower() == "help")
+                if (FullCommand.Substring(0, "help".Length).ToLower() == "help")
                 {
-                    Console.WriteLine("HashOS Version 0.1");
-                    Console.WriteLine("help Version 0.01");
+                    Console.WriteLine("HashOS Version 0.2");
+                    Console.WriteLine("help Version 0.03");
                     Console.WriteLine("Commands:");
                     for (int i = 0; i < commandArray.Length; i++)
                     {
-                        if (commandArray[i]!="easteregg") Console.WriteLine(commandArray[i]);
+                        if (commandArray[i] != "easteregg") Console.WriteLine(commandArray[i]);
                     }
                     return;
                 }
-                if (input.Substring(0, "reboot".Length).ToLower() == "reboot")
+                if (FullCommand.Substring(0, "time".Length).ToLower() == "time")
+                {
+                    Console.Write("Time: ");
+                    Console.WriteLine(time.getTime12(true, true, true));
+                }
+                if (FullCommand.Substring(0, "reboot".Length).ToLower() == "reboot")
                 {
                     Console.WriteLine("Rebooting...");
                     Sys.Power.Reboot();
                     return;
                 }
-                if (input.Substring(0, "shutdown".Length).ToLower() == "shutdown")
+                if (FullCommand.Substring(0, "shutdown".Length).ToLower() == "shutdown")
                 {
                     Console.WriteLine("Shutting Down...");
+                    Console.WriteLine("It is now safe to shut down your machine");
                     Stop();
                     return;
                 }
@@ -96,16 +121,17 @@ namespace TestOS
             {
                 Console.WriteLine("Command not found!");
             }
-            if (returnCode==2)
+            if (returnCode == 2)
             {
                 Console.WriteLine("APPLICATION SUFFFERED A FATAL ERROR!");
             }
-
         }
         protected override void AfterRun()
         {
 
         }
+
+
        
     }
 }

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using Sys=Cosmos.System;
 
 
-namespace TestOS
+namespace HashOS
 {
     /// <summary>
     /// Create your programs here
     /// </summary>
     class Userland
-    { 
+    {
+        Sys.FileSystem.CosmosVFS fs = new Sys.FileSystem.CosmosVFS();
         /// <summary>
         /// Runs a userland program
         /// </summary>
@@ -20,7 +22,7 @@ namespace TestOS
         public int runCommand(string command, string[] args, string fullCommand)
         {
             Sys.Global.mDebugger.Send("Userland called!");
-            if (command == "argtest")
+            if (command == "argumenttest")
             {
                 runArgTestProgram(args, fullCommand);
                 return 0;
@@ -30,7 +32,18 @@ namespace TestOS
                 runEasterEgg();
                 return 0;
             }
+            if (command=="dir")
+            {
+                getDirListing(args);
+            }
+            Console.WriteLine("Command is not implemented yet");
             return 2;
+        }
+
+        public void init()
+        {
+            Console.WriteLine("Setting up userland filesystem");
+            Sys.FileSystem.VFS.VFSManager.RegisterVFS(fs);
         }
 
         public void runArgTestProgram(string[] args, string fullCommand)
@@ -39,6 +52,7 @@ namespace TestOS
             Console.WriteLine();
             Console.Write("Full command: ");
             Console.WriteLine(fullCommand);
+            
                 
             if (args.Length!=0)
             {
@@ -56,9 +70,23 @@ namespace TestOS
         {
             Console.WriteLine("Quit snooping around, please!");
         }
-       
-       
+        public void getDirListing(string[] args)
+        {
+            foreach (var dir in Directory.GetDirectories(args[0]))
+            {
+                Console.WriteLine("<dir>\t" + dir);
+            }
+            foreach (var file in Directory.GetFiles(args[0]))
+            {
+                Console.WriteLine("<file>\t" + file);
+            }
 
+        }
+        //Used for list listings
+        private void Print(object s)
+        {
+            
+        }
 
     }
 }

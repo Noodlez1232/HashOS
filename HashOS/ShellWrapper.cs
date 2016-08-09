@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Sys = Cosmos.System;
 
-namespace TestOS
+namespace HashOS
 {
     public class ShellWrapper
     {
@@ -18,6 +18,7 @@ namespace TestOS
         {
             set
             {
+
                 Sys.Kernel.PrintDebug("listOfCommands set");
                 commandList = value;
             }
@@ -88,6 +89,10 @@ namespace TestOS
             Sys.Kernel.PrintDebug("Nonexiestant command");
             //Command does not exist
             return 4;
+        }
+        public void init()
+        {
+            userland.init();
         }
 
     }
