@@ -53,7 +53,7 @@
     <Compile Include="Time.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CosmosKernel1\HAL.csproj">
+    <ProjectReference Include="..\HAL\HAL.csproj">
       <Project>{73d8d6f7-ef11-43f7-9eec-dd0d460bd7a3}</Project>
       <Name>HAL</Name>
     </ProjectReference>
