@@ -34,7 +34,7 @@ namespace HashOS
             }
             if (command=="dir")
             {
-                getDirListing(args);
+                return getDirListing(args);
             }
             Console.WriteLine("Command is not implemented yet");
             return 2;
@@ -46,6 +46,7 @@ namespace HashOS
             Sys.FileSystem.VFS.VFSManager.RegisterVFS(fs);
         }
 
+        #region Programs
         public void runArgTestProgram(string[] args, string fullCommand)
         {
             Console.WriteLine("Argument System Test Program");
@@ -69,9 +70,20 @@ namespace HashOS
         public void runEasterEgg()
         {
             Console.WriteLine("Quit snooping around, please!");
+            Console.WriteLine("Also, shoutout to COSMOS for making this easteregg possible xD!");
         }
-        public void getDirListing(string[] args)
+        public int getDirListing(string[] args)
         {
+            if (args.Length==0)
+            {
+                Console.WriteLine("No path given");
+                return 1;
+            }
+            Console.Write("Listing of ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(args[0]);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(':');
             foreach (var dir in Directory.GetDirectories(args[0]))
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -86,9 +98,12 @@ namespace HashOS
                 Console.Write("<file>\t");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(file);
+                
             }
+            return 0;
 
         }
+        #endregion
 
     }
 }

@@ -353,7 +353,7 @@ namespace HashOS.HAL
         public static void Shutdown()
         {
             // send the shutdown command
-            Console.Clear();
+            //Console.Clear();
             if (PM1a_CNT == null) Init();
             if (pm1aIO != null)
             {

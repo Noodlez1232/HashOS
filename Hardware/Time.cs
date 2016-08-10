@@ -51,9 +51,9 @@ namespace HashOS.Drivers
             if (hour)
             {
                 if (Hour() > 12)
-                    timeStr += "PM";
+                    timeStr += " PM";
                 else
-                    timeStr += "AM";
+                    timeStr += " AM";
             }
             return timeStr;
         }
