@@ -74,18 +74,20 @@ namespace HashOS
         {
             foreach (var dir in Directory.GetDirectories(args[0]))
             {
-                Console.WriteLine("<dir>\t" + dir);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("<dir>\t");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(dir);
+                
             }
             foreach (var file in Directory.GetFiles(args[0]))
             {
-                Console.WriteLine("<file>\t" + file);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("<file>\t");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(file);
             }
 
-        }
-        //Used for list listings
-        private void Print(object s)
-        {
-            
         }
 
     }

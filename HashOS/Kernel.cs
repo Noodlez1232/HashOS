@@ -23,7 +23,7 @@ namespace HashOS
             "dir",
             "hscript",
             "exechbc",
-            "hsasm"
+            "hsasm",
         };
         byte[] commandTypeArray = new byte[]
         {
@@ -61,7 +61,11 @@ namespace HashOS
         protected override void Run()
         {
             //Get the shell all good and running
-            Console.Write("HOS> ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("HOS");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("> ");
+            Console.ForegroundColor = ConsoleColor.White;
             runCommand(Console.ReadLine());
             Sys.Global.mDebugger.Send("Shell Wrapper called");
         }
@@ -111,8 +115,7 @@ namespace HashOS
                 if (FullCommand.Substring(0, "shutdown".Length).ToLower() == "shutdown")
                 {
                     Console.WriteLine("Shutting Down...");
-                    Console.WriteLine("It is now safe to shut down your machine");
-                    Stop();
+                    Drivers.Power.ShutDown();
                     return;
                 }
                 Console.WriteLine("Kernel Command not found!!");

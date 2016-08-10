@@ -9,6 +9,8 @@ Project("{471EC4BB-E47E-4229-A789-D1F5F83B52D4}") = "HashOSBoot", "HashOS\HashOS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware", "Hardware\Hardware.csproj", "{24CACA9E-453D-4A24-8737-FA629162FB40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAL", "CosmosKernel1\HAL.csproj", "{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,14 @@ Global
 		{24CACA9E-453D-4A24-8737-FA629162FB40}.Release|Any CPU.Build.0 = Release|x86
 		{24CACA9E-453D-4A24-8737-FA629162FB40}.Release|x86.ActiveCfg = Release|x86
 		{24CACA9E-453D-4A24-8737-FA629162FB40}.Release|x86.Build.0 = Release|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Debug|Any CPU.Build.0 = Debug|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Debug|x86.ActiveCfg = Debug|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Debug|x86.Build.0 = Debug|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Release|Any CPU.ActiveCfg = Release|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Release|Any CPU.Build.0 = Release|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Release|x86.ActiveCfg = Release|x86
+		{73D8D6F7-EF11-43F7-9EEC-DD0D460BD7A3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

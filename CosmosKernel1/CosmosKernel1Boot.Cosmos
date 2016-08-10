@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{73b7a649-cc99-4744-b92d-edfa0273132b}</ProjectGuid>
+    <ProjectGuid>{62ae5dda-15fa-4787-9689-d53a8b2e06c1}</ProjectGuid>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <Name>HardwareBoot</Name>
+    <Name>CosmosKernel1Boot</Name>
     <BinFormat>elf</BinFormat>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
@@ -19,16 +19,16 @@
     <StartCosmosGDB>false</StartCosmosGDB>
     <VMWareEdition>Player</VMWareEdition>
     <OutputPath>bin\Debug\</OutputPath>
-    <Name>HardwareBoot</Name>
+    <Name>CosmosKernel1Boot</Name>
     <Description>Use VMware Player or Workstation to deploy and debug.</Description>
     <Deployment>ISO</Deployment>
     <Launch>VMware</Launch>
     <VisualStudioDebugPort>Pipe: Cosmos\Serial</VisualStudioDebugPort>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include=".\Hardware.csproj">
-      <Name>Hardware</Name>
-      <Project>{24caca9e-453d-4a24-8737-fa629162fb40}</Project>
+    <ProjectReference Include=".\CosmosKernel1.csproj">
+      <Name>CosmosKernel1</Name>
+      <Project>{73d8d6f7-ef11-43f7-9eec-dd0d460bd7a3}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
