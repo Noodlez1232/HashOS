@@ -250,3 +250,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+#Just a little secret, I'm lazy, so I build a .bat file to commit the OS
+commit.bat
