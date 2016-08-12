@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace HashOS
 {
-    public static class GlobalVars
+    public class GlobalVars
     {
         public static string Version = "0.3";
+        public string currentDir = "0:\\";
         
     }
 }
