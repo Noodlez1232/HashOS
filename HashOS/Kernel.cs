@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 //using HashOS;
 
@@ -27,6 +28,7 @@ namespace HashOS
             "exechbc",
             "hbcbasm",
             "cd",
+            "type",
         };
         byte[] commandTypeArray = new byte[]
         {
@@ -43,6 +45,7 @@ namespace HashOS
             1, //exechbc = kernel
             0, //hsasm = userland
             1, //cd = kernel
+            1, //type = kernel
         };
         #endregion
         HashOS.ShellWrapper shell = new ShellWrapper();
@@ -229,7 +232,7 @@ namespace HashOS
                     }
                     if (!args[i].StartsWith("/"))
                     {
-                        string tmp = getFilePath(args[i]);
+                        string tmp = getFilePath(args[i].Trim());
                         //File does not exist
                         if (tmp == "N")
                         {
@@ -237,7 +240,7 @@ namespace HashOS
                             return;
                         }
                         //Open the script and run it
-                        hscript(tmp, argsPassed);
+                        hscript("0:\\Kudzu.txt", argsPassed);
                     }
                     //TODO: Finish parsing on hscript
                 }
@@ -258,6 +261,11 @@ namespace HashOS
                 //No return needed, as it's unreachable
             }
             #endregion
+            #region type
+            if (FullCommand.StartsWith("type"))
+            {
+                //TODO: Finish this
+            }
             //No command found, this means I made a mistake if it hits this
             Console.WriteLine("Kernel Command not found!!");
         }
@@ -290,6 +298,7 @@ namespace HashOS
             {
                 //Oh noes!! Something happened!
                 Console.WriteLine(e.Message);
+                return;
             }
 
             //Parse the lines
@@ -330,15 +339,37 @@ namespace HashOS
 
         }
 
+        //Opens a file and displays it's contents
+        //TODO: Just check this
+        void type (string path)
+        {
+            string[] lines = null;
+            //Get the lines
+            try
+            {
+                lines = System.IO.File.ReadAllLines(path);
+            }
+            catch (Exception e)
+            {
+                //Oh noes!! Something happened!
+                Console.WriteLine(e.Message);
+                return;
+            }
+            for (int i=0; i<lines.Length; i++)
+            {
+                Console.WriteLine(lines[i]);
+            }
+        }
+
         public string getFilePath(string path)
         {
             //Check if it is a full path
-            if (System.IO.File.Exists(path))
-            {
-                return path;
-            }
+            //if (System.IO.File.Exists(path))
+            //{
+            //    return path;
+            //}
             //Check if file exists in the path also
-            if (System.IO.File.Exists(GlobalVars.CurrentDir + path))
+            if (File.Exists(GlobalVars.CurrentDir + path.Trim()))
             {
                 return GlobalVars.CurrentDir + path;
             }
