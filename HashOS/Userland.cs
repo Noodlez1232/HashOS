@@ -74,10 +74,13 @@ namespace HashOS
         }
         public int getDirListing(string[] args)
         {
+            
             if (args.Length==0)
             {
-                Console.WriteLine("No path given");
-                return 1;
+                //HACK: Just use this for now, I guess...
+                string[] tmparr = { GlobalVars.CurrentDir };
+                args = tmparr;
+                //return 1;
             }
             Console.Write("Listing of ");
             Console.ForegroundColor = ConsoleColor.Blue;

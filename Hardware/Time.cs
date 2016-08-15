@@ -12,7 +12,7 @@ namespace HashOS.Drivers
         public int Month() { return RTC.Month; }
         public int Year() { return RTC.Year; }
         public int DayOfTheWeek() { return RTC.DayOfTheWeek; }
-        public string getTime14(bool hour, bool min, bool sec)
+        public string getTime24(bool hour, bool min, bool sec)
         {
             string timeStr = "";
             if (hour) { timeStr += Hour().ToString(); }

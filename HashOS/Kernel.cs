@@ -16,7 +16,6 @@ namespace HashOS
         {
             "argumenttest",
             "echo",
-            "echo.",
             "shutdown",
             "reboot",
             "cls",
@@ -27,12 +26,12 @@ namespace HashOS
             "hscript",
             "exechbc",
             "hbcbasm",
+            "cd",
         };
         byte[] commandTypeArray = new byte[]
         {
             0, //argumenttest = userland
             1, //echo = kernel
-            1, //echo. = kernel
             1, //shutdown = kernel
             1, //reboot = kernel
             1, //cls = kernel
@@ -43,6 +42,7 @@ namespace HashOS
             1, //hscript = kernel
             1, //exechbc = kernel
             0, //hsasm = userland
+            1, //cd = kernel
         };
         #endregion
         HashOS.ShellWrapper shell = new ShellWrapper();
@@ -72,7 +72,7 @@ namespace HashOS
         {
             //Get the shell all good and running
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write("HOS");
+            Console.Write(GlobalVars.CurrentDir);
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("> ");
             Console.ForegroundColor = ConsoleColor.White;
@@ -99,95 +99,177 @@ namespace HashOS
 
         void runKernelCommand(string FullCommand)
         {
+            /*
+             * All commands should end with return to keep from displaying the "Kernel command not found! message"
+             */
+            #region cd
             if (FullCommand.ToLower().StartsWith("cd"))
             {
-                if (FullCommand.Split(' ').Length == 1) ; //TODO: Finish this (cd)
+                //Check if there were no args passed and if so, just display the current directory
+                if (FullCommand.Split(' ').Length == 1)
+                {
+                    Console.Write("Current Directory: ");
+                    Console.WriteLine(GlobalVars.CurrentDir);
+                }
+                return;
             }
+            #endregion
+            #region cls
             if (FullCommand.ToLower().StartsWith("cls"))
             {
+                //Clear the screen
                 Console.Clear();
                 return;
             }
+            #endregion
+            #region echo
             if (FullCommand.ToLower().StartsWith("echo"))
             {
+                //Check if echo is blank or is "echo."
+                if (FullCommand.Length<="echo ".Length)
+                {
+                    //Just write a blank line
+                    Console.WriteLine();
+                    return;
+                }
+                //Write all the following characters after echo
                 Console.Write(FullCommand.Substring("echo ".Length, FullCommand.Length - "echo ".Length));
+                //End the line
                 Console.WriteLine();
                 return;
             }
+            #endregion
+            #region help
             if (FullCommand.ToLower().StartsWith("help"))
             {
+                //Check if there was a command argument
                 if (FullCommand.Split(' ').Length > 1)
                 {
+                    //Get the help for that command
                     getHelp(FullCommand.Split(' ')[1]);
                     return;
                 }
+                //No arguments, just resume the search
+
+                //Display the version for HashOS
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("HashOS Version ");
                 Console.WriteLine(GlobalVars.Version);
                 Console.ForegroundColor = ConsoleColor.Cyan;
+                //Display the version for help
                 Console.WriteLine("help Version 0.1");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Commands:");
+
+                //Get every command that exists in the command array
                 for (int i = 0; i < commandArray.Length; i++)
                 {
                     if (
                     //Command exclusions to hide from help (Used for duplicate commands that have suffixes and the easteregg)
-                    commandArray[i] != "easteregg" &&
-                    commandArray[i] != "echo."
+                    commandArray[i] != "easteregg"
                     )
+                        //Display such command
                         Console.WriteLine(commandArray[i]);
                 }
                 return;
             }
+            #endregion
+            #region time
             if (FullCommand.ToLower().StartsWith("time"))
             {
+                //Write that time
                 Console.Write("Time: ");
-                Console.WriteLine(time.getTime12(true, true, true));
+                //Check if we want it to be in 12 or 24 hour mode
+                if (GlobalVars.HourMode)
+                {
+                    //Display the time in 12 hours with everything included
+                    Console.WriteLine(time.getTime12(true, true, true));
+                }
+                else //We want 24 hour time
+                {
+                    //DISPLAY ALL THE TIME STUFF
+                    Console.WriteLine(time.getTime24(true, true, true));
+                }
                 return;
             }
-            if (FullCommand.ToLower().StartsWith("echo."))
-            {
-                Console.WriteLine();
-                return;
-            }
+            #endregion
+            #region reboot
             if (FullCommand.ToLower().StartsWith("reboot"))
             {
+                //Show that the machine will be rebooting
                 Console.WriteLine("Rebooting...");
-
+                //Actually reboot
                 Sys.Power.Reboot();
-                return;
+                //Display error message if it fails
+                throw new Exception("Reboot failed!");
+                //No return needed, it's unreachable
             }
+            #endregion
+            #region hscript
             if (FullCommand.ToLower().StartsWith("hscript"))
             {
+                //Get the arguments
                 string[] args = FullCommand.Split(' ');
+                string[] argsPassed = { };
+                //If there were no arguments
                 if (args.Length == 1)
                 {
+                    //Just get help on it
                     getHelp("hscript");
                 }
+                //Else, just go through the arguments and parse them
                 for (int i = 0; i < args.Length; i++)
                 {
+                    // "/h" gets help
                     if (args[i] == "/h")
                     {
+                        //Get the help
                         getHelp("hscript");
                         return;
                     }
+                    if (!args[i].StartsWith("/"))
+                    {
+                        string tmp = getFilePath(args[i]);
+                        //File does not exist
+                        if (tmp == "N")
+                        {
+                            Console.WriteLine("File does not exist!");
+                            return;
+                        }
+                        //Open the script and run it
+                        hscript(tmp, argsPassed);
+                    }
+                    //TODO: Finish parsing on hscript
                 }
                 return;
             }
+            #endregion
+            #region shutdown
             if (FullCommand.ToLower().StartsWith("shutdown"))
             {
+                //Display message
                 Console.WriteLine("Shutting Down...");
+                //Shutdown through ACPI
                 Drivers.Power.ShutDown();
-                return;
+                //This computer is not able to use ACPI, so inform the user of such, and halt the computer.
+                Console.WriteLine("Unable to shutdown through ACPI, halting your computer instead");
+                Console.WriteLine("You can now safely shutdown your computer");
+                Stop();
+                //No return needed, as it's unreachable
             }
+            #endregion
+            //No command found, this means I made a mistake if it hits this
             Console.WriteLine("Kernel Command not found!!");
         }
 
+        //Runs a HashScript file. Needs to be in kernel so that it can run kernel commands
         void hscript(string path, string[] args)
         {
             int returnCode = 0;
             string[] lines = null;
             string[] tmpStringArray = null;
+            const string variableTag = "%%";
+            #region Variable system initalization
             //List of variables
             List<Variable> variables = new List<Variable>();
             Variable tmpVariable = new Variable();
@@ -198,7 +280,7 @@ namespace HashOS
                 tmpVariable.Value = args[i - 1];
                 variables.Add(tmpVariable);
             }
-
+            #endregion
             //Get the lines
             try
             {
@@ -209,21 +291,34 @@ namespace HashOS
                 //Oh noes!! Something happened!
                 Console.WriteLine(e.Message);
             }
+
+            //Parse the lines
             for (int i = 0; i < lines.Length; i++)
             {
                 lines[i].Trim();
                 //Checking and replacing variables
                 #region Checking Variables
-                if (lines[i].Contains("%%"))
+                //Check if it has the variable tag
+                if (lines[i].Contains(variableTag))
                 {
+                    //Split the command into arguments
                     tmpStringArray = lines[i].Split(' ');
+                    //Go through all the arguments
                     for (int j = 0; j < tmpStringArray.Length; j++)
                     {
-                        if (tmpStringArray[j].StartsWith("%%"))
+                        //If the argument starts with the variable tag then....
+                        if (tmpStringArray[j].StartsWith(variableTag))
                         {
+                            //Go through all the variables
                             for (int k = 0; k<variables.Count; k++)
                             {
-                                
+                                //Check if the variable is valid
+                                if (tmpStringArray[j].Substring(variableTag.Length) == variables[k].Name)
+                                {
+                                    //Variable is valid, replace it with the value
+                                    lines[i].Replace(tmpStringArray[j], variables[k].Value);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -233,6 +328,22 @@ namespace HashOS
             }
 
 
+        }
+
+        public string getFilePath(string path)
+        {
+            //Check if it is a full path
+            if (System.IO.File.Exists(path))
+            {
+                return path;
+            }
+            //Check if file exists in the path also
+            if (System.IO.File.Exists(GlobalVars.CurrentDir + path))
+            {
+                return GlobalVars.CurrentDir + path;
+            }
+            //Doesn't exist in any of them
+            return "N";
         }
 
         protected override void AfterRun()

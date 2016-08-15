@@ -16,7 +16,6 @@
         {
             HashOS.HAL.ACPI.Shutdown();
             ACPI.Disable();
-            Cosmos.Core.Global.CPU.Halt();
         }
     }
 }
